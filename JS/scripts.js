@@ -9,9 +9,28 @@ const pokemonRepository = (function () {
     return pokemonList;
   };
 
+  const addListItem = function (pokemon) {
+    // Create an li element
+    let listItem = document.createElement('li');
+
+    // Create a button element
+    let button = document.createElement('button');
+    // Set the button's innerText to be the Pokémon's name
+    button.innerText = pokemon.name;
+    // Add a class to the button
+    button.classList.add('pokemon-button');
+
+    // Append the button to the listItem as its child
+    listItem.appendChild(button);
+
+    // Append the listItem to the ulElement as its child
+    ulElement.appendChild(listItem);
+  };
+
   return {
     add: addPokemon,
     getAll: getAllPokemon,
+    addListItem: addListItem,
   };
 })();
 
@@ -33,31 +52,11 @@ pokemonRepository.add({
   types: ['water'],
 });
 
-// Begin table structure
-let output = '<table><tr><th>Name</th><th>Height</th><th>Additional Notes</th></tr>';
+// Assuming there is a <ul> element in your index.html with the id 'pokemon-list'
+const ulElement = document.querySelector('#pokemon-list');
 
 // forEach loop to iterate over the pokemonList array
 pokemonRepository.getAll().forEach(pokemon => {
-  output += '<tr>';
-
-  // Name
-  output += '<td>' + pokemon.name + '</td>';
-
-  // Height
-  output += '<td>' + pokemon.height + '</td>';
-
-  // Additional Notes
-  if (pokemon.height > 6) {
-    // If height is over 6, add "Wow, that's big!" to the output
-    output += "<td>Wow, that's big!</td>";
-  } else {
-    output += '<td></td>';
-  }
-
-  output += '</tr>';
+  // Call the addListItem() function with the current Pokémon object
+  pokemonRepository.addListItem(pokemon);
 });
-
-output += '</table>';
-
-// Write the output in the document
-document.write(output);
