@@ -30,7 +30,7 @@ const pokemonRepository = (function () {
         return response.json();
       })
       .then(function (details) {
-        pokemon.imageUrl = details.sprites.front_default;
+        pokemon.imageUrl = details.sprites.other['official-artwork'].front_default;
         pokemon.height = details.height;
         pokemon.weight = details.weight;
         pokemon.types = details.types.map(function (typeItem) {
@@ -43,14 +43,58 @@ const pokemonRepository = (function () {
       });
   };
 
+  const closeModal = function () {
+    const modalContainer = document.querySelector('.modal-container');
+    if (modalContainer) {
+      document.body.removeChild(modalContainer);
+      document.removeEventListener('keydown', handleKeydown);
+    }
+  };
+
+  const handleKeydown = function (event) {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  };
+
+  const showModal = function (pokemon) {
+    const modalContainer = document.createElement('div');
+    modalContainer.classList.add('modal-container');
+
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modalContainer.appendChild(modal);
+
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('modal-close');
+    closeButton.innerText = 'Close';
+    closeButton.addEventListener('click', closeModal);
+    modal.appendChild(closeButton);
+
+    const title = document.createElement('h1');
+    title.innerText = pokemon.name;
+    modal.appendChild(title);
+
+    const height = document.createElement('p');
+    height.innerText = `Height: ${pokemon.height}`;
+    modal.appendChild(height);
+
+    const imageContainer = document.createElement('div');
+    imageContainer.classList.add('image-wrapper');
+    modal.appendChild(imageContainer);
+
+    const image = document.createElement('img');
+    image.src = pokemon.imageUrl;
+    imageContainer.appendChild(image);
+
+    document.body.appendChild(modalContainer);
+
+    document.addEventListener('keydown', handleKeydown);
+  };
+
   const showDetails = function (pokemon) {
     loadDetails(pokemon).then(function () {
-      const pokemonInfo = `Name: ${pokemon.name}\nHeight: ${
-        pokemon.height
-      }\nWeight: ${pokemon.weight}\nTypes: ${pokemon.types.join(
-        ', '
-      )}\nImage URL: ${pokemon.imageUrl}`;
-      alert(pokemonInfo);
+      showModal(pokemon);
     });
   };
 
