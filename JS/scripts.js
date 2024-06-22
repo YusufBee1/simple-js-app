@@ -43,26 +43,33 @@ const pokemonRepository = (function () {
       });
   };
 
-  const closeModal = function () {
-    const modalContainer = document.querySelector('.modal-container');
-    if (modalContainer) {
-      document.body.removeChild(modalContainer);
-      document.removeEventListener('keydown', handleKeydown);
-    }
-  };
+  const ulElement = document.querySelector('#pokemon-list');
+  
+  const modalContainer = document.createElement('div');
+  modalContainer.classList.add('modal-container');
+  modalContainer.style.position = 'fixed';
+  modalContainer.style.top = '0';
+  modalContainer.style.left = '0';
+  modalContainer.style.width = '100%';
+  modalContainer.style.height = '100%';
+  modalContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  modalContainer.style.display = 'flex';
+  modalContainer.style.justifyContent = 'center';
+  modalContainer.style.alignItems = 'center';
+  modalContainer.style.zIndex = '999';
+  modalContainer.style.display = 'none';
 
-  const handleKeydown = function (event) {
-    if (event.key === 'Escape') {
-      closeModal();
-    }
-  };
+  document.body.appendChild(modalContainer);
 
   const showModal = function (pokemon) {
-    const modalContainer = document.createElement('div');
-    modalContainer.classList.add('modal-container');
+    modalContainer.innerHTML = '';
 
     const modal = document.createElement('div');
     modal.classList.add('modal');
+    modal.style.backgroundColor = 'white';
+    modal.style.borderRadius = '5px';
+    modal.style.padding = '20px';
+    modal.style.width = '300px';
     modalContainer.appendChild(modal);
 
     const closeButton = document.createElement('button');
@@ -70,7 +77,7 @@ const pokemonRepository = (function () {
     closeButton.innerText = 'Close';
     closeButton.addEventListener('click', closeModal);
     modal.appendChild(closeButton);
-
+    
     const title = document.createElement('h1');
     title.innerText = pokemon.name;
     modal.appendChild(title);
@@ -87,9 +94,19 @@ const pokemonRepository = (function () {
     image.src = pokemon.imageUrl;
     imageContainer.appendChild(image);
 
-    document.body.appendChild(modalContainer);
-
+    modalContainer.style.display = 'flex';
     document.addEventListener('keydown', handleKeydown);
+  };
+
+  const closeModal = function () {
+    modalContainer.style.display = 'none';
+    document.removeEventListener('keydown', handleKeydown);
+  };
+
+  const handleKeydown = function (event) {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
   };
 
   const showDetails = function (pokemon) {
