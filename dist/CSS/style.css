@@ -51,15 +51,3 @@
   max-width: 100%;
   height: auto;
 }
-.modal.show .modal-dialog {
-  transform: translateY(0);
-}
-
-.modal.fade .modal-dialog {
-  transform: translateY(-100%);
-  transition: all 0.3s ease-out;
-}
-.modal {
-  display: flex;
-  align-items: center;
-}
