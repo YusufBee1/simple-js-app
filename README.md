@@ -1,12 +1,12 @@
-Yusuf's Pokemon App
-An immersive list of Pokemon with their pictures and traits.
+# Simple Pokedex App! 
 
-## Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
+## Description of project
+I created a Pokedex for Career Foundry's Full Stack Web Development course. It features a list of 150 Pokemon buttons with loaded data from a public API and a styled modal that pops up when you click on a pokemon. 
 
-## Installation
-This program should run with minimal dependecies as it is simple in nature.
+The project also includes a search bar in the navigation. 
+
+## Tech stack used: 
+HTML, CSS, Javascript
+
+## Libraries: 
+jQuery & Bootstrap
